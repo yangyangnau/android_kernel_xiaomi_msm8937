@@ -66,6 +66,8 @@
 #define VENDOR_TPK_1080P		 0x5C
 #define VENDOR_BIEL_720P			  0xF1
 #define VENDOR_TPK_720P			 0xF2
+#define VENDOR_OUFEI_720P	0xF3
+#define VENDOR_LENS_720P	0xF4
 
 
 #define VENDOR_WINTEK		0x89
@@ -84,6 +86,10 @@
 #define IC_FT5436i			  0x12
 #define IC_FT5336i			  0x11
 
+/*TP Color*/
+#define TP_White	  0x31
+#define  TP_Black	  0x32
+#define  TP_Golden	0x38
 
 /* power register bits*/
 #define FT_PMODE_ACTIVE	 0x00
@@ -168,7 +174,7 @@
 #define FT_CAL_STORE		0x05
 #define FT_CAL_RETRY		100
 #define FT_REG_CAL	  0x00
-#define FT_CAL_MASK	 0x70
+#define FT_CAL_MASK	 0x7C
 
 #define FT_INFO_MAX_LEN	 512
 #define FTS_PACKET_LENGTH	128
@@ -295,9 +301,10 @@ struct ft5x06_ts_data {
 
 #define CTP_PROC_INTERFACE 0
 #define CTP_LOCKDOWN_INFO  1
+#define BoardId_SUPPORT_FW	 1
 
 
-#define WT_ADD_CTP_INFO   0
+#define WT_ADD_CTP_INFO   1
 
 #define CTP_DEBUG_ON 0
 #define CTP_DEBUG_FUNC_ON 0
@@ -305,14 +312,14 @@ struct ft5x06_ts_data {
 
 #define CTP_ERROR(fmt, arg...)		  printk("FT5X06-TP-TAG ERROR:"fmt"\n", ##arg)
 
-#define CTP_DEBUG(fmt, arg...)		do {\
+#define CTP_DEBUG(fmt, arg...)		  do {\
 										 if (CTP_DEBUG_ON)\
 										 printk("FT5X06-TP-TAG DEBUG:[%d]"fmt"\n", __LINE__, ##arg);\
-									} while (0)
-#define CTP_DEBUG_FUNC()			do {\
+									  } while (0)
+#define CTP_DEBUG_FUNC()			   do {\
 										 if (CTP_DEBUG_FUNC_ON)\
 										 printk("FT5X06-TP-TAG Func:%s@Line:%d\n", __func__, __LINE__);\
-									} while (0)
+									  } while (0)
 
 
 #endif
