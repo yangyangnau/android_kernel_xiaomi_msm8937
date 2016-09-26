@@ -50,6 +50,7 @@
 #include <asm/mmu_context.h>
 #include <asm/processor.h>
 #include <asm/stacktrace.h>
+#include <asm/tlbflush.h>
 
 #ifdef CONFIG_CC_STACKPROTECTOR
 #include <linux/stackprotector.h>
@@ -384,6 +385,13 @@ static void tls_thread_switch(struct task_struct *next)
 	: : "r" (tpidr), "r" (tpidrro));
 }
 
+static void tlb_flush_thread(struct task_struct *prev)
+{
+	/* Flush the prev task's TLB entries */
+	if (prev->mm)
+		flush_tlb_mm(prev->mm);
+}
+
 /*
  * Thread switching.
  */
@@ -396,6 +404,8 @@ struct task_struct *__switch_to(struct task_struct *prev,
 	tls_thread_switch(next);
 	hw_breakpoint_thread_switch(next);
 	contextidr_thread_switch(next);
+
+	tlb_flush_thread(prev);
 
 	/*
 	 * Complete any pending TLB or cache maintenance on this CPU in case
