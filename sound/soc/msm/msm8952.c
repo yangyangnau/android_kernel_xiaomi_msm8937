@@ -2940,6 +2940,15 @@ parse_mclk_freq:
 		pr_err("%s:  doesn't support external speaker pa\n",
 				__func__);
 
+#ifdef CONFIG_ARCH_MSM8937
+	/* redmi3s: enable external speaker PA */
+ 	gpio_direction_output(124, 1);
+        printk("redmi3s: enable external speaker PA gpio 124.\n");
+	/* redmi3s: enable headset */
+        gpio_direction_output(129, 1);
+        printk("redmi3s: enable headset gpio 129.\n");
+#endif
+
 	ret = of_property_read_string(pdev->dev.of_node,
 		hs_micbias_type, &type);
 	if (ret) {
